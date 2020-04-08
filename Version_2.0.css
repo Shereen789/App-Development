@@ -5,9 +5,10 @@ th{
 }
 img{
   border: 3px solid brown;
-  width:30%
+  width:50%
 }
 body{
+
   background-color: rgb(255, 219, 224);
 }
 td,th{
@@ -25,42 +26,29 @@ header{
 }
 p,ul,ol,div{
   font-family: cursive;
+  text-align: left;
+}
+p,div{
+  font-family: cursive;
+  text-align: justify;
 }
 h2{
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    color: rgb(241, 8, 78);
 }
 table{
-  border: 3px solid black;
-  margin:50px;
 
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+#t1{
+  border: 3px solid black;
+  margin-left: 250px;
   border-collapse: collapse;
 }
 form{
   text-align:center;
   font-family: cursive;
   font-weight: bold;
- color: rgb(33, 126, 10);
-}
-.flex-container {
-  /* We first create a flex layout context */
-  display: flex;
-
-  /* Then we define the flow direction
-     and if we allow the items to wrap
-   * Remember this is the same as:
-   * flex-direction: row;
-   * flex-wrap: wrap;
-   */
-  flex-flow: row wrap;
-
-  /* Then we define how is distributed the remaining space */
-  justify-content: space-around;
-
-  list-style: none;
-}
-
-.flex-item {
-
-  text-align: center;
+  color: rgb(33, 126, 10);
 }
