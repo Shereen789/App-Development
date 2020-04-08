@@ -1,0 +1,16 @@
+th{
+  color:brown;
+  text-align: center;
+  background-color: lightgrey;
+}
+td,th{
+  border: 2px dotted black;
+}
+h1{
+  color: red;
+  text-align:center;
+}
+table{
+  border: 3px solid black;
+  border-collapse: collapse;
+}
