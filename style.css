@@ -6,9 +6,12 @@ th{
 td,th{
   border: 2px dotted black;
 }
-h1{
-  color: red;
+header{
+  color: rgb(156, 11, 108);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: x-large;
   text-align:center;
+  font-weight: bolder;
 }
 table{
   border: 3px solid black;
