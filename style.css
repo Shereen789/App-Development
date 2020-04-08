@@ -5,6 +5,7 @@ th{
 }
 td,th{
   border: 2px dotted black;
+  text-align: center;
 }
 header{
   color: rgb(156, 11, 108);
@@ -26,5 +27,4 @@ form{
   font-family: cursive;
   font-weight: bold;
  color: rgb(241, 8, 78);
-
 }
