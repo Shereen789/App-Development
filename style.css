@@ -3,12 +3,20 @@ th{
   text-align: center;
   background-color: lightgrey;
 }
+img{
+  border: 3px solid pink;
+  width:30%
+}
+body{
+  background-color: rgb(255, 219, 224);
+}
 td,th{
   border: 2px dotted black;
   text-align: center;
+  padding:5px;
 }
 header{
-  color: rgb(156, 11, 108);
+  color: rgb(9, 14, 87);
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: x-large;
   text-align:center;
@@ -20,6 +28,8 @@ h2{
 }
 table{
   border: 3px solid black;
+  margin:50px;
+
   border-collapse: collapse;
 }
 form{
