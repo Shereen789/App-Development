@@ -1,11 +1,12 @@
 body{
     background-color: lightgoldenrodyellow;
-
-    //*background-color: rgb(238, 124, 204);
-    *//
+    margin: 25px;
 }
+    /*background-color: rgb(238, 124, 204);
+    */
+
 img{
-    margin-left:350px;
+    margin-left:300px;
     margin-bottom: auto;
     border: 2px solid black;
 }
@@ -19,4 +20,8 @@ aside{
 }
 form{
     width:100%
+}
+#aboutmecontent{
+    font-family: cursive;
+    text-align:justify;
 }
