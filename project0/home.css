@@ -1,0 +1,22 @@
+body{
+    background-color: lightgoldenrodyellow;
+
+    //*background-color: rgb(238, 124, 204);
+    *//
+}
+img{
+    margin-left:350px;
+    margin-bottom: auto;
+    border: 2px solid black;
+}
+h3{
+    text-align:right;
+    color:red
+}
+aside{
+    text-align:center;
+    color:pink;
+}
+form{
+    width:100%
+}
