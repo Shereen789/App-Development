@@ -1,3 +1,1 @@
-# Project 0
-
-Web Programming with Python and JavaScript
+A replica of a Writer's blog...
