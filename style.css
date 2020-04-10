@@ -5,11 +5,11 @@ th{
 }
 img{
   border: 3px solid brown;
-  width:30%
+  margin-left:90px;
+  height:150px;
+  width:150px;
 }
-body{
-  background-color: rgb(255, 219, 224);
-}
+
 td,th{
   border: 2px dotted black;
   text-align: center;
@@ -32,7 +32,8 @@ h2{
 }
 table{
   border: 3px solid black;
-  margin:50px;
+  margin:90px;
+  width:350px
 
   border-collapse: collapse;
 }
@@ -42,25 +43,8 @@ form{
   font-weight: bold;
  color: rgb(33, 126, 10);
 }
-.flex-container {
-  /* We first create a flex layout context */
-  display: flex;
-
-  /* Then we define the flow direction
-     and if we allow the items to wrap
-   * Remember this is the same as:
-   * flex-direction: row;
-   * flex-wrap: wrap;
-   */
-  flex-flow: row wrap;
-
-  /* Then we define how is distributed the remaining space */
-  justify-content: space-around;
-
-  list-style: none;
-}
-
-.flex-item {
-
-  text-align: center;
+.container{
+  text-align:justify;
+  margin:10px;
+  width:100%
 }
