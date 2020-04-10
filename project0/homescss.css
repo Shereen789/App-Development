@@ -1,0 +1,17 @@
+ul {
+  font-size: 22px;
+  font-family: cursive;
+  color: brown; }
+
+div {
+  font-family: cursive;
+  font-size: 20px; }
+  div h4 {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    color: maroon; }
+  div p {
+    color: black; }
+
+/*# sourceMappingURL=homescss.css.map */

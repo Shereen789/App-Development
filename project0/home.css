@@ -1,14 +1,14 @@
 body{
-
+    background-color: white;    /* background-color: rgb(237, 253, 224); */
     margin: 25px;
 }
-    /*background-color: rgb(238, 124, 204);
+    /*
     */
 
-img{
-    margin-left:300px;
+#logo{
+    margin-left:450px;
     width:600px;
-    height:150px;
+    height:120px;
     margin-bottom: auto;
     border: 2px solid black;
 }
@@ -25,5 +25,13 @@ form{
 }
 #aboutmecontent{
     font-family: cursive;
+    font-size: 28px;
     text-align:justify;
+}
+
+td,th{
+  border: 2px solid lightgoldenrodyellow;
+  text-align: center;
+  font-family: sans-serif;
+  padding:10px;
 }
