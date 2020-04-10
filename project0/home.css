@@ -36,11 +36,11 @@ td,th{
   padding:10px;
 }
 body {
-           /* background-image: url('b.jpg');
+           background-image: url('bgi.jpg');
            background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: cover; */
-  background-color: lavender;
+  background-size: cover;
+  /* background-color: lavender; */
         }
 
         @media only screen and (max-width: 600px) {
