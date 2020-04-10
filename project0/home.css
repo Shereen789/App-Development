@@ -23,7 +23,7 @@ aside{
 form{
     width:100%
 }
-#aboutmecontent{
+#aboutmecontent,p{
     font-family: cursive;
     font-size: 28px;
     text-align:justify;
@@ -35,3 +35,16 @@ td,th{
   font-family: sans-serif;
   padding:10px;
 }
+body {
+           /* background-image: url('b.jpg');
+           background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover; */
+  background-color: lavender;
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                background-color: lightblue;
+            }
+        }
