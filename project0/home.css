@@ -36,15 +36,19 @@ td,th{
   padding:10px;
 }
 body {
-           background-image: url('bgi.jpg');
-           background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+        background-image: url("2.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
   /* background-color: lavender; */
         }
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 800px) {
             body {
-                background-color: lightblue;
+                /* background-color: lightblue; */
+                        background-image: url("3.jpeg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
             }
         }
