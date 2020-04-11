@@ -5,33 +5,55 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="homescss.css">
     <title>Ira's Tales</title>
 
 </head>
 
 <body>
     <div class="header">
-        <img id="logo" src="Logo.png">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <img id="logo" src="Logo.png">
+                </div>
+                <div class="col-sm">
+                    "There is more treasure in books than in all the pirate's loot on Treasure Island." – Walt Disney
+                </div>
+            </div>
+        </div>
     </div>
     <form>
-        <button type="button" class="btn btn-warning" style="width : 24%; background-color: white;"><a
+        <button type="button" class="btn btn-warning"
+            style="width : 24%; color: black; background-color: rgb(234, 187, 246);"><a style="color: black"
                 href="home.html">Home</a></button>
-        <button type="button" class="btn btn-warning" style="width : 24%;background-color: white;"><a
+        <button type="button" class="btn btn-warning"
+            style="width : 24%;color: black; background-color: rgb(234, 187, 246);"><a style="color: black"
                 href="stories.html">Stories</a></button>
-        <button type="button" class="btn btn-warning" style="width : 24%;background-color: white;"><a
+        <button type="button" class="btn btn-warning"
+            style="width : 24%;color: black; background-color: rgb(234, 187, 246);"><a style="color: black"
                 href="aboutme.html">About Us</a></button>
-        <button type="button" class="btn btn-warning" style="width : 24%;background-color: white;"><a
+        <button type="button" class="btn btn-warning"
+            style="width : 24%;color: black; background-color: rgb(234, 187, 246);"><a style="color: black"
                 href="contactme.html">Contact</a></button>
     </form>
-    <p>
+    <p id="aboutmecontent">
 
         <div class="container">
             <div class="row">
-                <div class="col-8">
+                <div class="col-5">
                     <p>Want to contribute to our mission of making people read.?
                         Want to join our team ? Can you write stories ?</p>
                     <p>Then this page is exclusively for YOU!!</p>
-                    <table style="border:2px dotted black;border-collapse: collapse;">
+                    <p>
+                        Are you an aspiring author, or someone simply looking for an output for their creativity?
+
+                        We allow you to easily post your own stories for our thousands of daily visitors to read, with
+                        the
+                        ability to view readers comments, ratings, as well as how many favorites and views your story
+                        has received.
+                    </p>
+                    <table style="border:2px dotted black;border-collapse: collapse;align-content: center;">
                         <tr>
                             <td>
                                 <p style="text-align:left">Email us at</p>
@@ -51,11 +73,15 @@
                             </td>
                         </tr>
                     </table>
+
                 </div>
-                <div class="col-4">
+                <div class="col-5">
                     <img src="bookk.jpeg" style="margin-top:50px;width:500px;height:350px;">
                 </div>
             </div>
         </div>
+
     </p>
 </body>
+
+</html>
