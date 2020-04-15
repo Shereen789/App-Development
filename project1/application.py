@@ -1,5 +1,5 @@
 import os
-
+import time
 from flask import Flask, session, request, render_template
 from flask_session import Session
 from sqlalchemy import create_engine
@@ -41,3 +41,12 @@ def register():
 def hello():
     name = request.form.get("Email")
     pwd = request.form.get("password")
+    ts = time.gmtime()
+    tstamp = time.strftime("%c", ts)
+    try:
+        db.execute("INSERT INTO user_database(username,pword,creation_timestamp) VALUES(:username,:pword,:creation_timestamp)", {
+            "username": name, "pword": pwd, "creation_timestamp": tstamp})
+        db.commit()
+        return "Hello "+name.split('@')[0]+"! You have successfully registered"
+    except:
+        return "Failed to Register"
