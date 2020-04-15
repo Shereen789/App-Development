@@ -1,7 +1,7 @@
 import os
 import time
-from flask import Flask, session, render_template
-from flask_session import Session
+from flask import Flask,, render_template
+from flask import sessionfrom flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
