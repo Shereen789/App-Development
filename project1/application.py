@@ -1,10 +1,11 @@
 import os
 import time
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+
 from flask import Flask, render_template, request
 # from flask import session
 from flask_session import Session
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
 
@@ -53,7 +54,8 @@ def hello():
 #     ts = time.gmtime()
 #     tstamp = time.strftime("%c", ts)
 #     try:
-#         db.execute("INSERT INTO user_database(username,pword,creation_timestamp) VALUES(:username,:pword,:creation_timestamp)", {
+#         db.execute("INSERT INTO user_database(username,pword,creation_timestamp)
+# VALUES(:username,:pword,:creation_timestamp)", {
 #             "username": name, "pword": pwd, "creation_timestamp": tstamp})
 #         db.commit()
 #         return "Hello "+name.split('@')[0]+"! You have successfully registered"
