@@ -51,25 +51,25 @@ def register():
 #     return "Hello "+name.split('@')[0]+"! You have successfully registered"
 
 
-@app.route("/display", methods=["POST"])
+@app.route("/display", methods=["POST", "GET"])
 def display():
-    uname = request.form.get("Email")
-    pwd = request.form.get("password")
-    tstamp = datetime.datetime.now()
-    print(uname, pwd, tstamp)
-    try:
-        db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
-                   {"username": uname, "passwords": pwd, "creationstamp": tstamp})
-        db.commit()
-        return "Hello "+uname.split('@')[0]+"! You have successfully registered"
-    except:
-        return "Hello "+uname.split('@')[0] + "! Failed to Register"
+    if request.method == "POST":
+        uname = request.form.get("Email")
+        pwd = request.form.get("password")
+        tstamp = datetime.datetime.now()
+        print(uname, pwd, tstamp)
+        try:
+            db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
+                       {"username": uname, "passwords": pwd, "creationstamp": tstamp})
+            db.commit()
+            return "Hello "+uname.split('@')[0]+"! You have successfully registered"
+        except:
+            return "Hello "+uname.split('@')[0] + "! Failed to Register"
+    else:
+        return "Please register yourself @ '/register'"
 
 
 @app.route("/admin")
 def admin():
     user_data = Userdata.query.all()
-    lis = []
-    for data in user_data:
-        lis.append(data)
-    return lis
+    return render_template('admin.html', userdata=user_data)
