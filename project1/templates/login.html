@@ -8,17 +8,18 @@
 </head>
 
 <body>
-    <form action="{{url_for('display')}}" class="border border-light p-5" method="POST">
-        <p class="h4 mb-4 text-center">Register</p>
-
+    <form action="{{url_for('home')}}" class="border border-light p-5" method="POST">
+        <p class="h4 mb-4 text-center">Login</p>
         <input name="Email" type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
         <input name="password" type="password" id="defaultLoginFormPassword" class="form-control mb-4"
             placeholder="Password">
-        <button class="btn btn-info btn-block my-4" type="submit">Sign Up</button>
+        <button class="btn btn-info btn-block my-4" type="submit">Sign In</button>
+
         <div class="text-center">
-            <p>Already a member?
-                <a href="{{url_for('login')}}">Sign In</a>
+            <p>Not a member?
+                <a href="{{url_for('register')}}">Register</a>
             </p>
         </div>
     </form>
+
 </body>

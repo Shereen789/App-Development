@@ -43,12 +43,34 @@ def register():
     return render_template('register.html')
 
 
-# @app.route("/hello", methods=["POST"])
-# def hello():
-#     name = request.form.get("Email")
-#     pwd = request.form.get("password")
-#     print(name+"#"+pwd)
-#     return "Hello "+name.split('@')[0]+"! You have successfully registered"
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if request.method == "GET":
+        return render_template('login.html')
+    else:
+        return "Please Login using your Credentials"
+
+
+@app.route("/logout")
+def logout():
+    if "Email" in session:
+        session.pop('Email', None)
+        return render_template('logout.html')
+    else:
+        return "user already logged out"
+
+
+@app.route("/home", methods=["POST"])
+def welcome():
+    if request.method == "POST":
+        uname = request.form.get("Email")
+        pwd = request.form.get("password")
+        if not validate(uname, pwd):
+            return "<h3>Incorrect UserId or Password</h3>"
+            # return render_template('register.html')
+        else:
+            session['Email'] = request.form['Email']
+            return render_template('success.html')
 
 
 @app.route("/display", methods=["POST", "GET"])
@@ -73,3 +95,12 @@ def display():
 def admin():
     user_data = Userdata.query.all()
     return render_template('admin.html', userdata=user_data)
+
+
+def validate(uname, pwd):
+    checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id and passwords= :pwd",
+                         {"id": uname, "pwd": pwd}).fetchone()
+    if checker is None:
+        return False
+    else:
+        return True
