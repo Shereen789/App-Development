@@ -61,7 +61,7 @@ def logout():
 
 
 @app.route("/home", methods=["POST"])
-def welcome():
+def home():
     if request.method == "POST":
         uname = request.form.get("Email")
         pwd = request.form.get("password")

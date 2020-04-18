@@ -16,9 +16,8 @@
             placeholder="Password">
         <button class="btn btn-info btn-block my-4" type="submit">Sign Up</button>
         <div class="text-center">
-            <p>Already a member?
-                <a href="{{url_for('login')}}">Sign In</a>
-            </p>
+            <p>Already a member?</p>
+            <a class="btn btn-warning" href="{{url_for('login')}}" role="button">Sign In</a>
         </div>
     </form>
 </body>

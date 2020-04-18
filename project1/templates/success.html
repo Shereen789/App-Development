@@ -8,9 +8,11 @@
 </head>
 
 <body>
-    <form action="{{url_for('display')}}" class="border border-light p-5" method="POST">
-        <p class="h4 mb-4 text-center">You logged in Successfully</p>
-        <a href="{{url_for('logout')}}">logout</a>
-        </div>
-    </form>
+    <div class="text-center">
+        <form action="{{url_for('display')}}" class="border border-light p-5" method="POST">
+            <p class="h4 mb-4 text-center">You logged in Successfully</p>
+            <a class="btn btn-success" href="{{url_for('logout')}}" role="button">Log Out</a>
+
+        </form>
+    </div>
 </body>
