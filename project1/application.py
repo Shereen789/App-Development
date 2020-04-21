@@ -32,12 +32,6 @@ def index():
     return "Project 1: TODO"
 
 
-@app.route("/data/batch")
-def codetime():
-    print(request.data)
-    return "Codetime Success!!"
-
-
 @app.route("/register")
 def register():
     return render_template('register.html')
@@ -78,15 +72,18 @@ def display():
     if request.method == "POST":
         uname = request.form.get("Email")
         pwd = request.form.get("password")
-        tstamp = datetime.datetime.now()
-        print(uname, pwd, tstamp)
-        try:
-            db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
-                       {"username": uname, "passwords": pwd, "creationstamp": tstamp})
-            db.commit()
-            return "Hello "+uname.split('@')[0]+"! You have successfully registered"
-        except:
-            return "Hello "+uname.split('@')[0] + "! Failed to Register"
+        if not validate(uname, pwd):
+            tstamp = datetime.datetime.now()
+            print(uname, pwd, tstamp)
+            try:
+                db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
+                           {"username": uname, "passwords": pwd, "creationstamp": tstamp})
+                db.commit()
+                return "Hello "+uname.split('@')[0]+"! You have successfully registered"
+            except:
+                return "Hello "+uname.split('@')[0] + "! Failed to Register"
+        else:
+            return "You are already registered."
     else:
         return "Please register yourself @ '/register'"
 
