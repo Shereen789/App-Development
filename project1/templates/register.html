@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Register</title>
+</head>
+
+<body>
+    <form action="{{url_for('display')}}" class="border border-light p-5" method="POST">
+        <p class="h4 mb-4 text-center">Register</p>
+
+        <input name="Email" type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+        <input name="password" type="password" id="defaultLoginFormPassword" class="form-control mb-4"
+            placeholder="Password">
+        <button class="btn btn-info btn-block my-4" type="submit">Sign Up</button>
+        <div class="text-center">
+            <p>Already a member?</p>
+            <a class="btn btn-warning" href="{{url_for('login')}}" role="button">Sign In</a>
+        </div>
+    </form>
+</body>
