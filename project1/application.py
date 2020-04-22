@@ -4,6 +4,7 @@ from models import *
 from create import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from flask import Flask, render_template, request
 from flask import session
