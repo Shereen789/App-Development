@@ -27,6 +27,12 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
+@app.route("/batch/data")
+def retrive():
+    print(request.data)
+    return request.data
+
+
 @app.route("/")
 def index():
     return "Project 1: TODO"
@@ -43,6 +49,25 @@ def login():
         return render_template('login.html')
     else:
         return "Please Login using your Credentials"
+
+
+@app.route("/search")
+def search():
+    return render_template('search.html')
+
+
+@app.route("/sresults", methods=["POST"])
+def sresults():
+    search_by = request.form.get("search_with")
+    search_text = "%"+request.form.get("search_text")+"%"
+    print(search_by, search_text)
+    if search_by == "ISBN":
+        results = db.execute(
+            "SELECT * FROM bookdata WHERE isbn LIKE search_text")
+        l = []
+        for i in results:
+            l.append(i)
+        return str(l)
 
 
 @app.route("/logout")
