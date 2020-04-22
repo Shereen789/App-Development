@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>
@@ -33,12 +34,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <img src="({{url_for('static',filename='images/Quote.jpg')}})" />
+                        <image src="({{url_for('static',filename='images/Quote.jpg')}})" />
                     </div>
                     <div class="col-md-2">
                     </div>
                     <div class="col-md-6">
-                        <form action="{{url_for('display')}}" class="border border-light p-5" method="POST">
+                        <form action="{{url_for('profile')}}" class="border border-light p-5" method="POST">
                             <p class="h4 mb-4 text-center">Register</p>
 
                             <input name="Email" type="email" id="defaultLoginFormEmail" class="form-control mb-4"

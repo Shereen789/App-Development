@@ -53,9 +53,9 @@ def login():
         return "Please Login using your Credentials"
 
 
-@app.route("/search")
-def search():
-    return render_template('search.html')
+@app.route("/profile", methods=["POST"])
+def profile():
+    return render_template('profile.html')
 
 
 @app.route("/sresults", methods=["POST"])

@@ -1,17 +1,6 @@
-body{background-image:url({{url_for('static', filename='images/books6.jpg')}});
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-}
-
-td,th{
-  border: 2px solid lightgoldenrodyellow;
-  text-align: center;
-  font-family: sans-serif;
-}
-
-.header{
-text-align: center;
-  font-family: cursive;
-  font-weight: bold;
+body{
+  background-image: url('../images/bkg.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
