@@ -25,6 +25,7 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
+# Userdata.load(request.json, session=db.session)
 
 
 @app.route("/batch/data")
@@ -58,16 +59,23 @@ def search():
 
 @app.route("/sresults", methods=["POST"])
 def sresults():
+
     search_by = request.form.get("search_with")
     search_text = "%"+request.form.get("search_text")+"%"
     print(search_by, search_text)
-    if search_by == "ISBN":
-        results = db.execute(
-            "SELECT * FROM bookdata WHERE isbn LIKE search_text")
-        l = []
-        for i in results:
-            l.append(i)
-        return str(l)
+    if search_by == "1":
+        results = db.query(Books).filter(
+            Books.author.like(search_text)).all()
+    if search_by == "2":
+        results = db.query(Books).filter(
+            Books.isbn.like(search_text)).all()
+    if search_by == "3":
+        results = db.query(Books).filter(
+            Books.title.like(search_text)).all()
+    if results != None:
+        return render_template('searchresults.html', results=results)
+    else:
+        return "No such Details Found"
 
 
 @app.route("/logout")
