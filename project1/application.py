@@ -29,15 +29,9 @@ db = scoped_session(sessionmaker(bind=engine))
 # Userdata.load(request.json, session=db.session)
 
 
-@app.route("/batch/data")
-def retrive():
-    print(request.data)
-    return request.data
-
-
-@app.route("/")
-def index():
-    return "Project 1: TODO"
+# @app.route("/")
+# def index():
+#     return "Project 1: TODO"
 
 
 @app.route("/register")
@@ -53,14 +47,18 @@ def login():
         return "Please Login using your Credentials"
 
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return render_template('login.html')
+
+
 @app.route("/profile", methods=["POST"])
 def profile():
     return render_template('profile.html')
 
 
-@app.route("/sresults", methods=["POST"])
 def sresults():
-
     search_by = request.form.get("search_with")
     search_text = "%"+request.form.get("search_text")+"%"
     print(search_by, search_text)
@@ -74,52 +72,22 @@ def sresults():
         results = db.query(Books).filter(
             Books.title.like(search_text)).all()
     if results != None:
-        return render_template('searchresults.html', results=results)
+        return results
     else:
         return "No such Details Found"
 
 
-@app.route("/logout")
-def logout():
-    if "Email" in session:
-        session.pop('Email', None)
-        return render_template('logout.html')
-    else:
-        return "user already logged out"
-
-
-@app.route("/home", methods=["POST"])
-def home():
-    if request.method == "POST":
-        uname = request.form.get("Email")
-        pwd = request.form.get("password")
-        if not validate(uname, pwd):
-            return "<h3>Incorrect UserId or Password</h3>"
-            # return render_template('register.html')
-        else:
-            session['Email'] = request.form['Email']
-            return render_template('success.html')
-
-
-@app.route("/display", methods=["POST", "GET"])
-def display():
-    if request.method == "POST":
-        uname = request.form.get("Email")
-        pwd = request.form.get("password")
-        if not validate(uname, pwd):
-            tstamp = datetime.datetime.now()
-            print(uname, pwd, tstamp)
-            try:
-                db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
-                           {"username": uname, "passwords": pwd, "creationstamp": tstamp})
-                db.commit()
-                return "Hello "+uname.split('@')[0]+"! You have successfully registered"
-            except:
-                return "Hello "+uname.split('@')[0] + "! Failed to Register"
-        else:
-            return "You are already registered."
-    else:
-        return "Please register yourself @ '/register'"
+# @app.route("/home", methods=["POST"])
+# def home():
+#     if request.method == "POST":
+#         uname = request.form.get("Email")
+#         pwd = request.form.get("password")
+#         if not validate(uname, pwd):
+#             return "<h3>Incorrect UserId or Password</h3>"
+#             # return render_template('register.html')
+#         else:
+#             session['Email'] = request.form['Email']
+#             return render_template('success.html')
 
 
 @app.route("/admin")

@@ -33,12 +33,21 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
-                        <image src="({{url_for('static',filename='images/Quote.jpg')}})" />
+                    <div class="col-md-5">
+                        <blockquote class="blockquote">
+                            <p class="mb-0"
+                                style="font-family: cursive; text-align: center;margin-top: 200px;color: black;font-weight: bolder;">
+                                “Let us remember: One book, one pen, one child, and one teacher can change the world..”
+                            </p>
+                            <footer class="blockquote-footer"
+                                style="font-family: cursive;color:darkred;text-align: right;font-weight: bolder;">
+                                Malala Yousafzai
+                            </footer>
+                        </blockquote>s
                     </div>
                     <div class="col-md-2">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <form action="{{url_for('profile')}}" class="border border-light p-5" method="POST">
                             <p class="h4 mb-4 text-center">Register</p>
 
