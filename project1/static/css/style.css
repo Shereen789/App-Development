@@ -4,3 +4,11 @@ body{
   background-attachment: fixed;
   background-size: cover;
 }
+table{
+  background-color:rgb(168, 197, 39);
+}
+td{
+  color:brown;
+  text-align: center;
+  background-color: lightgrey;
+}
