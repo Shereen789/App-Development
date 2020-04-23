@@ -100,58 +100,21 @@ def logout():
     return render_template('login.html')
 
 
-# @app.route("/profile", methods=["POST"])
-# def profile():
-#     uname = request.form.get("Email")
-#     pwd = request.form.get("password")
-#     if uname is None:
-#         return "Enter User Name"
-#     if pwd is None:
-#         return "Enter Valid Password"
-#     return render_template('profile.html')
-
-
-@app.route("/sresults/<data>")
-def sresults(data):
-    # data = type ? text
-    # print("HEllo ")
-    print(data)
-    if request.method == "GET":
-        fields = data.split("?")
-        search_by = fields[0]
-
-        search_text = fields[1]
-    else:
-        search_by = request.form.get("search_with")
-        search_text = "%"+request.form.get("search_text")+"%"
-
+@app.route("/search", methods=["POST"])
+def search():
+    search_by = request.form.get("search_with").strip()
+    search_text = "%"+request.form.get("search_text").strip()+"%"
     print(search_by, search_text)
     if search_by == "1":
-        results = db.query(Books).filter(
-            Books.author.like(search_text)).all()
+        results = db.query(Books).filter(Books.author.like(search_text)).all()
     if search_by == "2":
-        results = db.query(Books).filter(
-            Books.isbn.like(search_text)).all()
+        results = db.query(Books).filter(Books.isbn.like(search_text)).all()
     if search_by == "3":
-        results = db.query(Books).filter(
-            Books.title.like(search_text)).all()
+        results = db.query(Books).filter(Books.title.like(search_text)).all()
     if results != None:
-        return results
+        return render_template('search.html', results=results)
     else:
         return "No such Details Found"
-
-
-# @app.route("/home", methods=["POST"])
-# def home():
-#     if request.method == "POST":
-#         uname = request.form.get("Email")
-#         pwd = request.form.get("password")
-#         if not validate(uname, pwd):
-#             return "<h3>Incorrect UserId or Password</h3>"
-#             # return render_template('register.html')
-#         else:
-#             session['Email'] = request.form['Email']
-#             return render_template('success.html')
 
 
 @app.route("/admin")
