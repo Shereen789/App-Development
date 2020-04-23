@@ -93,6 +93,22 @@ def admin():
     user_data = Userdata.query.all()
     return render_template('admin.html', userdata=user_data)
 
+@app.route("/bookpage/<string:arg>",methods = ["GET"])
+def bookpage():
+    book = db.query(Book).filter_by(isbn = "380795272")
+    return render_template("bookpage.html", bookdata = book)
+
+@app.route("/addreview", methods = ["POST"])
+def addreview():
+    username = request.form.get("Email").split('@')[0]
+    isbn = request.form.get("isbn")
+    rating = request.form.get("rating")
+    review = request.form.get("review")
+    
+    review = Reviews(username = username, isbn = isbn, rating = rating, review = review)
+    db.add(review)
+    db.commit()
+    return redirect(url_for("/bookpage"))
 
 def validate(uname, pwd):
     checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id and passwords= :pwd",
