@@ -9,7 +9,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Flask, render_template, request
 from flask import session
 from flask_session import Session
+from flask_cors import CORS, cross_origin
 
+
+cors = CORS(myapp, resources={r"*": {"origins": "*"}})
 # app = Flask(__name__)
 
 # Check for environment variable
@@ -26,12 +29,11 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
-# Userdata.load(request.json, session=db.session)
 
 
-# @app.route("/")
-# def index():
-#     return "Project 1: TODO"
+@app.route("/")
+def index():
+    return render_template('register.html')
 
 
 @app.route("/register")
@@ -55,24 +57,39 @@ def logout():
 
 @app.route("/profile", methods=["POST"])
 def profile():
+    uname = request.form.get("Email")
+    pwd = request.form.get("password")
+    if uname is None:
+        return "Enter User Name"
+    if pwd is None:
+        return "Enter Valid Password"
     return render_template('profile.html')
 
 
-def sresults():
-    search_by = request.form.get("search_with")
-    search_text = "%"+request.form.get("search_text")+"%"
-    print(search_by, search_text)
-    if search_by == "1":
-        results = db.query(Books).filter(
-            Books.author.like(search_text)).all()
-    if search_by == "2":
-        results = db.query(Books).filter(
-            Books.isbn.like(search_text)).all()
-    if search_by == "3":
-        results = db.query(Books).filter(
-            Books.title.like(search_text)).all()
-    if results != None:
-        return results
+@app.route("/sresults/<data>")
+def sresults(data):
+    # data = type ? text
+    if request.method == "GET":
+        fields = data.split("?")
+        search_by = fields[0]
+
+        search_text = fields[1]
+    else:
+        search_by = request.form.get("search_with")
+        search_text = "%"+request.form.get("search_text")+"%"
+
+        print(search_by, search_text)
+        if search_by == "1":
+            results = db.query(Books).filter(
+                Books.author.like(search_text)).all()
+        if search_by == "2":
+            results = db.query(Books).filter(
+                Books.isbn.like(search_text)).all()
+        if search_by == "3":
+            results = db.query(Books).filter(
+                Books.title.like(search_text)).all()
+        if results != None:
+            return results
     else:
         return "No such Details Found"
 

@@ -67,6 +67,7 @@
                                             document.getElementById("search_initiate").innerHTML = results[0].title;
                                         }
                                     };
+
                                     xhttp.open("GET", "{{url_for('sresults')}}", true)
                                     xhttp.send();
                                 }
