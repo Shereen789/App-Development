@@ -9,10 +9,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Flask, render_template, request
 from flask import session
 from flask_session import Session
-from flask_cors import CORS, cross_origin
+# from flask_cors import CORS, cross_origin
 
 
-cors = CORS(myapp, resources={r"*": {"origins": "*"}})
+# cors = CORS(app, resources={r"*": {"origins": "*"}})
 # app = Flask(__name__)
 
 # Check for environment variable
@@ -36,17 +36,62 @@ def index():
     return render_template('register.html')
 
 
-@app.route("/register")
+@app.route("/register", methods=["POST", "GET"])
 def register():
-    return render_template('register.html')
+    session.clear()
+    if request.method == "POST":
+        uname = request.form.get("Email")
+        pwd = request.form.get("password")
+        html = "{{url_for('register')}}"
+        button = "Register"
+        if uname == "" and pwd == "":
+            return render_template('error.html', html=html, button=button, message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        if uname == "":
+            return render_template('error.html', html=html, button=button, message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
+        if pwd == "":
+            return render_template('error.html', html=html, button=button, message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        if validate_user(uname):
+            html = "{{url_for('login')}}"
+            return render_template('error.html', html=html, button='Login', message="USER ALREADY EXISTS. LOGIN WITH THE CREDENTIALS")
+
+        if uname != "" and pwd != "" and not validate_user(uname):
+            try:
+                tstamp = datetime.datetime.now()
+                db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
+                           {"username": uname, "passwords": pwd, "creationstamp": tstamp})
+                db.commit()
+                return render_template('login.html')
+            except:
+                return render_template('error.html', html=html, button=button, message="Failed to Register. Try Again")
+    else:
+        return render_template('register.html')
 
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    if request.method == "GET":
-        return render_template('login.html')
+    session.clear()
+    if request.method == "POST":
+        uname = request.form.get("Email")
+        pwd = request.form.get("password")
+        html = "{{url_for('login')}}"
+        button = "Login"
+        if uname == "" and pwd == "":
+            return render_template('error.html', html=html, button=button, message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        if uname == "":
+            return render_template('error.html', html=html, button=button, message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
+        if pwd == "":
+            return render_template('error.html', html=html, button=button, message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        if not validate_user(uname):
+            html = "{{url_for('register')}}"
+            return render_template('error.html', html=html, button='Register', message="USER DOESN'T EXISTS. REGISTER")
+        elif not validate(uname, pwd):
+            return render_template('error.html', html=html, button=button, message="PASSWORD NOT MATCHED. TRY AGAIN")
+
+        session['Email'] = request.form['Email']
+        return render_template('profile.html')
+
     else:
-        return "Please Login using your Credentials"
+        return render_template('login.html')
 
 
 @app.route("/logout")
@@ -55,20 +100,22 @@ def logout():
     return render_template('login.html')
 
 
-@app.route("/profile", methods=["POST"])
-def profile():
-    uname = request.form.get("Email")
-    pwd = request.form.get("password")
-    if uname is None:
-        return "Enter User Name"
-    if pwd is None:
-        return "Enter Valid Password"
-    return render_template('profile.html')
+# @app.route("/profile", methods=["POST"])
+# def profile():
+#     uname = request.form.get("Email")
+#     pwd = request.form.get("password")
+#     if uname is None:
+#         return "Enter User Name"
+#     if pwd is None:
+#         return "Enter Valid Password"
+#     return render_template('profile.html')
 
 
 @app.route("/sresults/<data>")
 def sresults(data):
     # data = type ? text
+    # print("HEllo ")
+    print(data)
     if request.method == "GET":
         fields = data.split("?")
         search_by = fields[0]
@@ -78,18 +125,18 @@ def sresults(data):
         search_by = request.form.get("search_with")
         search_text = "%"+request.form.get("search_text")+"%"
 
-        print(search_by, search_text)
-        if search_by == "1":
-            results = db.query(Books).filter(
-                Books.author.like(search_text)).all()
-        if search_by == "2":
-            results = db.query(Books).filter(
-                Books.isbn.like(search_text)).all()
-        if search_by == "3":
-            results = db.query(Books).filter(
-                Books.title.like(search_text)).all()
-        if results != None:
-            return results
+    print(search_by, search_text)
+    if search_by == "1":
+        results = db.query(Books).filter(
+            Books.author.like(search_text)).all()
+    if search_by == "2":
+        results = db.query(Books).filter(
+            Books.isbn.like(search_text)).all()
+    if search_by == "3":
+        results = db.query(Books).filter(
+            Books.title.like(search_text)).all()
+    if results != None:
+        return results
     else:
         return "No such Details Found"
 
@@ -116,6 +163,15 @@ def admin():
 def validate(uname, pwd):
     checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id and passwords= :pwd",
                          {"id": uname, "pwd": pwd}).fetchone()
+    if checker is None:
+        return False
+    else:
+        return True
+
+
+def validate_user(uname):
+    checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id",
+                         {"id": uname}).fetchone()
     if checker is None:
         return False
     else:

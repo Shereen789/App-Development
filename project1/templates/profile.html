@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Profile</title>
+
 </head>
 
 <body>
@@ -37,10 +38,9 @@
                     <div class="col-md-4">
                     </div>
                 </div>
-
                 <div class="row">
                     <div style="margin-top:40px" class="col-md-6">
-                        <form class="form-inline" style="text-align: center;">
+                        <form class="form-inline" style="text-align: center;" method="GET">
                             <label class="my-1 mr-2" style="font-family: 'Courier New', Courier, monospace;color:white;"
                                 for="inlineFormCustomSelectPref">Search with </label>
                             <select type="text" class="custom-select my-1 mr-sm-2" name="search_with"
@@ -55,20 +55,26 @@
                                     placeholder="Enter details to Search " class="form-control input-md">
                             </div>
 
-                            <button type="submit" onclick="searchinitiate()" class="btn btn-primary my-1">Search
+                            <button onclick="searchinitiate()" class="btn btn-primary my-1">Search
                             </button>
                             <p id="search_initiate"></p>
                             <script>
                                 function searchinitiate() {
+                                    console.log("hello")
                                     var xhttp = new XMLHttpRequest();
                                     xhttp.onreadystatechange = function () {
                                         if (this.readyState == 4 && this.status == 200) {
                                             results = this.responseText;
+                                            console.log(results)
                                             document.getElementById("search_initiate").innerHTML = results[0].title;
                                         }
                                     };
 
-                                    xhttp.open("GET", "{{url_for('sresults')}}", true)
+                                    type = document.getElementById("inlineFormCustomSelecctPref").value
+                                    text = document.getElementById("textinput").value
+                                    data = type + "?" + text
+
+                                    xhttp.open("GET", "http://127.0.0.1:5000/sresults/data")
                                     xhttp.send();
                                 }
                             </script>
