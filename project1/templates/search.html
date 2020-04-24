@@ -82,10 +82,10 @@
                             </thead>
                             <tbody>
                                 {% for result in results %}
-                                <tr>
-                                    <td>{{result.title}}</td>
-                                    <td><a href={{result.isbn}}>{{result.isbn}}</a></td>
-
+                                <tr><a href={{result.isbn}}>
+                                        <td>{{result.title}}</td>
+                                        <td>{{result.isbn}}</td>
+                                    </a>
                                 </tr>
                                 {% endfor %}
                             </tbody>

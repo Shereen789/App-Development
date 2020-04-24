@@ -33,7 +33,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return render_template('register.html')
+    return render_template('register.html', message="Register Your self with Email and Password")
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -42,17 +42,16 @@ def register():
     if request.method == "POST":
         uname = request.form.get("Email")
         pwd = request.form.get("password")
-        html = "{{url_for('register')}}"
-        button = "Register"
+        # html = "{{url_for('register')}}"
+        # button = "Register"
         if uname == "" and pwd == "":
-            return render_template('error.html', html=html, button=button, message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+            return render_template('register.html', message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
         if uname == "":
-            return render_template('error.html', html=html, button=button, message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
+            return render_template('register.html', message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
         if pwd == "":
-            return render_template('error.html', html=html, button=button, message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+            return render_template('register.html', message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
         if validate_user(uname):
-            html = "{{url_for('login')}}"
-            return render_template('error.html', html=html, button='Login', message="USER ALREADY EXISTS. LOGIN WITH THE CREDENTIALS")
+            return render_template('login.html', message="USER ALREADY EXISTS. LOGIN WITH THE CREDENTIALS")
 
         if uname != "" and pwd != "" and not validate_user(uname):
             try:
@@ -60,11 +59,11 @@ def register():
                 db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
                            {"username": uname, "passwords": pwd, "creationstamp": tstamp})
                 db.commit()
-                return render_template('login.html')
+                return render_template('login.html', message="Please Log In using your Credentials")
             except:
-                return render_template('error.html', html=html, button=button, message="Failed to Register. Try Again")
+                return render_template('register.html', message="Failed to Register. Try Again")
     else:
-        return render_template('register.html')
+        return render_template('register.html', message="Register Your self with Email and Password")
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -73,25 +72,24 @@ def login():
     if request.method == "POST":
         uname = request.form.get("Email")
         pwd = request.form.get("password")
-        html = "{{url_for('login')}}"
-        button = "Login"
+        # html = "{{url_for('login')}}"
+        # button = "Login"
         if uname == "" and pwd == "":
-            return render_template('error.html', html=html, button=button, message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+            return render_template('login.html', message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
         if uname == "":
-            return render_template('error.html', html=html, button=button, message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
+            return render_template('login.html', message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
         if pwd == "":
-            return render_template('error.html', html=html, button=button, message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+            return render_template('login.html', message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
         if not validate_user(uname):
-            html = "{{url_for('register')}}"
-            return render_template('error.html', html=html, button='Register', message="USER DOESN'T EXISTS. REGISTER")
+            return render_template('register.html', message="USER DOESN'T EXISTS. REGISTER")
         elif not validate(uname, pwd):
-            return render_template('error.html', html=html, button=button, message="PASSWORD NOT MATCHED. TRY AGAIN")
+            return render_template('login.html', message="PASSWORD NOT MATCHED. TRY AGAIN")
 
         session['Email'] = request.form['Email']
         return render_template('profile.html')
 
     else:
-        return render_template('login.html')
+        return render_template('login.html', message="Please Login with your Credentials")
 
 
 @app.route("/logout")

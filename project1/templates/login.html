@@ -50,6 +50,9 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-5">
                         <form action="{{url_for('login')}}" class="border border-light p-5" method="POST">
+                            <p id="Error Message"
+                                style="font-size: x-large; text-align:center;color: chartreuse; font-family: sans-serif;font-weight: bolder;">
+                                {{message}}</p>
                             <p class="h4 mb-4 text-center">Login</p>
                             <input name="Email" type="email" id="defaultLoginFormEmail" class="form-control mb-4"
                                 placeholder="E-mail">
