@@ -7,7 +7,7 @@
             h1 {
                 margin: 23px 23px 23px 0px;
                 color: maroon;
-                text-align: left;
+                text-align: center;
                 font-weight: bold;
             }
             
@@ -33,7 +33,7 @@
             }
             
             .rate:not(:checked) > label:before {
-                content: '★';
+                content: '★ ';
             }
             
             .rate > input:checked ~ label {
@@ -53,10 +53,8 @@
                 color: #c59b08;
             }
 
-            .rate {
-                float: left;
-                height: 45px;
-                padding: 0 10px;
+            .rate:hover { 
+                transform: rotate(-15deg) scale(1.3);
             }
         </style>
     </head>
@@ -112,6 +110,8 @@
                 <label for = "star5" title = "text">5 stars</label>
             </div>
             <br><br><br> 
+            <label for = "review" title = "review">Provide your feedback</label>
+            <br><br>
             <textarea rows = "5" cols = "50" name = "feedback" form = "reviewform" placeholder = "Enter your feedback...">Review</textarea>
             <br><br><br>
             <button type = "submit">Submit</button> 

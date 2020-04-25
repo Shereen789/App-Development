@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>Search Page</title>
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="text-center text-warning">Buddy Books.</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <a class="btn btn-warning" role="button" href="#">Home</a>
+                                </li>
+                                <li class="nav-item" style="padding-left:20px;">
+                                    <a class="btn btn-success" href="{{url_for('logout')}}" role="button">Log Out</a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="col-md-4"></div>
+                    </div>
+                    
+                    <div class="row">
+                        <div style="margin-top:40px" class="col-md-6">
+                            <form action="{{url_for('search')}}" class="form-inline" style="text-align: center;"
+                                method="POST">
+                                <label class="my-1 mr-2" style="font-family: 'Courier New', Courier, monospace;color:white;"
+                                    for="inlineFormCustomSelectPref">Search with </label>
+                                <select type="text" class="custom-select my-1 mr-sm-2" name="search_with" id="search_with">
+                                    <option selected>Select</option>
+                                    <option value="1">Author</option>
+                                    <option value="2">ISBN</option>
+                                    <option value="3">Title</option>
+                                </select>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input id="search_text" name="search_text" type="text"
+                                        placeholder="Enter details to Search " class="form-control input-md">
+                                </div>
+                                <button class="btn btn-primary my-1">Search</button>
+
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-7">
+                            <caption
+                                style="font-family: 'Courier New' ;font-size:25px color: rgb(0, 0, 0);font-weight: bolder;">
+                                Results for your Search..</caption>
+                            <table id="searchtable" class="table"
+                                style="background-color:rgb(175, 247, 250);border: 3px solid black;">
+
+
+                                <thead class="thead-dark">
+                                    <tr style="border: 1px solid black;border-collapse: collapse;">
+                                        <th scope="col">Title</th>
+                                        <th scope="col">ISBN</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in results %}
+                                    <tr><a href={{result.isbn}}>
+                                            <td>{{result.title}}</td>
+                                            <td>{{result.isbn}}</td>
+                                        </a>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <blockquote class="blockquote">
+                                <p class="mb-0"
+                                    style="font-family: cursive;font-size:28px; text-align: center;margin-top: 200px; color: rgb(0, 0, 0);font-weight: bolder;">
+                                    “Let us remember: One book, one pen, one child, and one teacher can change the world..”
+                                </p>
+                                <footer class="blockquote-footer"
+                                    style="font-family: cursive;font-size:24px;color:darkred;text-align: right;font-weight: bolder;">
+                                    Malala Yousafzai
+                                </footer>
+                            </blockquote>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

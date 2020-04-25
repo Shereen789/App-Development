@@ -93,12 +93,28 @@ def admin():
     user_data = Userdata.query.all()
     return render_template('admin.html', userdata=user_data)
 
+@app.route("/search", methods=["POST"])
+def search():
+    search_by = request.form.get("search_with").strip()
+    search_text = "%"+request.form.get("search_text").strip()+"%"
+    print(search_by, search_text)
+    if search_by == "1":
+        results = db.query(Books).filter(Books.author.like(search_text)).all()
+    if search_by == "2":
+        results = db.query(Books).filter(Books.isbn.like(search_text)).all()
+    if search_by == "3":
+        results = db.query(Books).filter(Books.title.like(search_text)).all()
+    if results != None:
+        return render_template('search.html', results=results)
+    else:
+        return "No such Details Found"
+
 @app.route("/bookpage/<string:arg>",methods = ["GET"])
 def bookpage():
     book = db.query(Book).filter_by(isbn = "380795272")
     return render_template("bookpage.html", bookdata = book)
 
-@app.route("/addreview", methods = ["POST"])
+@app.route("/review", methods = ["POST"])
 def addreview():
     username = request.form.get("Email").split('@')[0]
     isbn = request.form.get("isbn")
