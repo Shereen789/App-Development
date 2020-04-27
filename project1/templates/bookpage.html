@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Book Page</title>
+        <style>
+            h4 {
+                color:rgb(18, 247, 94);
+            }
+        </style>
+    </head>
+
+    <body style="text-align: center;">
+        <button type="submit" class="logout_button" value="logout_now">Logout</button>
+        <div class="container">
+            <br>
+            <div class="row">
+                <h1 style="font-size: 45px; font-weight: bolder; color:mediumblue">Title: {{bookDetails.title}}</h1>
+                <h4>ISBN: {{bookDetails.isbn}}</h4>
+                <h4>Author: {{bookDetails.author}}</h4>
+                <h4>Published: {{bookDetails.year}}</h4>
+            </div>
+            <br>
+        </div>
+    </body>
+</html>
