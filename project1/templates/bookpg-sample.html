@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            background: rgb(180, 177, 177);
+        }
+
+        pre{
+            color:black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h2{
+            color:black;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top:25px;
+        }
+        .tab1 {
+            tab-size: 2;
+        }
+        table{
+            text-align: center;
+        }
+        p{
+            color: black;
+            font-size: larger;
+
+        }
+        #pop {
+            text-align: center;
+        }
+
+
+    </style>
+<head>
+    <title>Bookpage</title>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+      <a class="navbar-brand" href="/">Book Reviews</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="/login">Login<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/logout">Logout</a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+</head>
+<body>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" id="pop">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+ 
+    </div>
+
+    <script>
+        $(".alert").alert();
+    </script>
+
+    <h2><u>Book Review Page</u></h2>
+
+      <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" class="bg-warning">Fields</th>
+                <th scope="col">Details</th>
+            </tr>
+
+            <tr>
+                <td class="bg-warning">ISBN No.</td>
+                <!-- <td class="table-light">{{book.isbn}}</td> -->
+                </tr>
+                <tr>
+                    <td class="bg-warning">Title</td>
+                    <!-- <td class="table-light">{{book.title}}</td> -->
+                </tr>
+                <tr>
+                    <td class="bg-warning">Author</td>
+                    <!-- <td class="table-light">{{book.author}}</td> -->
+                </tr>
+                <tr>
+                    <td class="bg-warning">Publishing Year</td>
+                    <!-- <td class="table-light">{{book.year}}</td> -->
+                </tr>
+
+            </tr>
+        </tbody>
+      </table>
+      <br><br><br>
+    
+
+    <h2>Book Reviews Here</h2>
+    <!-- {%if details%}
+      {%for i in details%}
+          <p>Email : {{i.emailid}}</p>
+          <p>review : {{i.rating}} </p>
+          <p>review : {{i.comments}} </p>
+      {% endfor %}
+      {%else%}
+      <p> Nobody has reviewed before you!</p>
+    {%endif%} -->
+</body>
+</html>
