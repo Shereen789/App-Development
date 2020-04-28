@@ -45,6 +45,9 @@
             h4 {
                 color:darkslateblue;
             }
+            th {
+                color: orangered;
+            }
         </style>
     </head>
 
@@ -88,18 +91,27 @@
             </form>
             <br><br><br>
 
-            {%if error is defined%}
-            <div id = "error" style = "color:red">You have already reviewed this book...</div>
+            {%if err_msg is defined%}
+            <div id = "error" style = "color:red">You have already submitted the review for this book...</div>
             {%endif%}
 
             <div id = "userReviews"></div>
                 <h3>Review details by other users</h3>
                 {%if userreviews%}
-                    {% for r in userreviews %}
-                        <p>Username: {{r.username}}</p>
-                        <p>Rating: {{r.rating}}</p>
-                        <p>Review: {{r.review}}</p>
-                    {% endfor %}
+                    <table align = "center">
+                        <tr>
+                            <th>Username</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                        </tr>
+                        {% for r in userreviews %}
+                            <tr>
+                                <td>{{r.username}}</td>
+                                <td>{{r.rating}}</td>
+                                <td>{{r.review}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
                     {%else%}
                     <p style = "color: red;">*** Nobody has reviewed so far ***</p>
                 {%endif%}

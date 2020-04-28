@@ -119,14 +119,16 @@ def bookpage():
     if request.method == "GET":
         if not 'Email' in session:
             return render_template("register.html")
-        isbn = "1416949658"
+        #isbn = "1416949658"
+        isbn = "0553803700"
         book = Books.query.get(isbn)
         if book is None:
             return render_template("profile.html", msg = "Invalid ISBN number")
         reviews = Reviews.query.filter_by(isbn = isbn).all()
         return render_template("bookpage.html", bookDetails = book, userreviews = reviews)
     else:
-        isbn = "1416949658"
+        #isbn = "1416949658"
+        isbn = "0553803700"
         book = Books.query.get(isbn)
         try:
             rating = request.form["rate"]
