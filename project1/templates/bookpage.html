@@ -63,7 +63,7 @@
                 <h4>Published: {{bookDetails.year}}</h4>
             </div>
             <br>
-            <form id = "reviewform" method = "POST" action = "{{url_for('bookpage')}}">
+            <form id = "reviewform" method = "POST" action = "{{url_for('bookpage',arg=''.join(['isbn=', bookDetails.isbn]))}}">
                 <h2><b>Please review the book</b></h2>
                 <div class = "rate" id = "cont" style = "text-align: center">
                     <input type = "radio" id = "star5" name = "rate" value = "5"/>
@@ -95,7 +95,7 @@
             <div id = "error" style = "color:red">You have already submitted the review for this book...</div>
             {%endif%}
 
-            <div id = "userReviews"></div>
+            <div id = "userReviews">
                 <h3>Review details by other users</h3>
                 {%if userreviews%}
                     <table align = "center">

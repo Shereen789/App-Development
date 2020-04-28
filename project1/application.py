@@ -114,13 +114,14 @@ def admin():
     user_data = Userdata.query.all()
     return render_template('admin.html', userdata=user_data)
 
-@app.route("/bookpage", methods = ["POST", "GET"])
-def bookpage():
+@app.route("/bookpage/<string:arg>", methods = ["POST", "GET"])
+def bookpage(arg):
+    isbn = arg.strip().split("=")[1]
     if request.method == "GET":
         if not 'Email' in session:
             return render_template("register.html")
         #isbn = "1416949658"
-        isbn = "0553803700"
+        #isbn = "0553803700"
         book = Books.query.get(isbn)
         if book is None:
             return render_template("profile.html", msg = "Invalid ISBN number")
@@ -128,7 +129,7 @@ def bookpage():
         return render_template("bookpage.html", bookDetails = book, userreviews = reviews)
     else:
         #isbn = "1416949658"
-        isbn = "0553803700"
+        #isbn = "0553803700"
         book = Books.query.get(isbn)
         try:
             rating = request.form["rate"]
@@ -166,20 +167,6 @@ def validate_user(uname):
         return False
     else:
         return True
-
-"""
-@app.route("/review", methods = ["POST"])
-def addreview():
-    username = request.form.get("Email").split('@')[0]
-    isbn = request.form.get("isbn")
-    rating = request.form.get("rating")
-    review = request.form.get("review")
-    
-    review = Reviews(username = username, isbn = isbn, rating = rating, review = review)
-    db.add(review)
-    db.commit()
-    return redirect(url_for("/bookpage"))
-"""
 
 def validate(uname, pwd):
     checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id and passwords= :pwd",

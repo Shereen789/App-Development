@@ -33,7 +33,6 @@
                                 </li>
                             </ul>
                         </div>
-                        
                         <div class="col-md-4"></div>
                     </div>
                     
@@ -59,7 +58,6 @@
                         </div>
                         <div class="col-md-6">
                         </div>
-
                     </div>
                     
                     <div class="row">
@@ -70,19 +68,19 @@
                             <table id="searchtable" class="table"
                                 style="background-color:rgb(175, 247, 250);border: 3px solid black;">
 
-
                                 <thead class="thead-dark">
                                     <tr style="border: 1px solid black;border-collapse: collapse;">
-                                        <th scope="col">Title</th>
                                         <th scope="col">ISBN</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Author</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for result in results %}
-                                    <tr><a href={{result.isbn}}>
-                                            <td>{{result.title}}</td>
-                                            <td>{{result.isbn}}</td>
-                                        </a>
+                                    <tr>
+                                        <td><a href="{{''.join(['/bookpage/isbn=', result.isbn])}}">{{result.isbn}}</a></td>
+                                        <td>{{result.title}}</td>
+                                        <td>{{result.author}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -101,7 +99,6 @@
                                 </footer>
                             </blockquote>
                         </div>
-
                     </div>
                 </div>
             </div>
