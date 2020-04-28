@@ -53,23 +53,20 @@
                 color: #c59b08;
             }
 
-            .rate:hover { 
-                transform: rotate(-15deg) scale(1.3);
-            }
         </style>
     </head>
     <body class = "container">
-        <h1>Book details to review</h1>
-        <table class = "table table-dark">
-            <thead class = "thead-dark">
-            <tr>
-                <th scope = "col">Details</th>
-                <th scope = "col">Description</th>
-            </tr>
-            </thead>
-            
-            <tbody>
-                {% for book in bookdata %}
+        {% if book %}
+            <h1>Book details to review</h1>
+            <table class = "table table-dark">
+                <thead class = "thead-dark">
+                <tr>
+                    <th scope = "col">Book Details</th>
+                    <th scope = "col">Description</th>
+                </tr>
+                </thead>
+                
+                <tbody>
                     <tr>
                         <td>ISBN</td>
                         <td>{{book.isbn}}</td>
@@ -86,14 +83,15 @@
                         <td>Published Year</td>
                         <td>{{book.year}}</td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
+                </tbody>
+            </table>
+        {% endif %}
+        
+        <br><br><br>
         <form class = "in" action = "{{url_for('bookpage')}}" id = "reviewform" method = "POST">
             <h2>Hello {{username}}, please review the book</h2>
             <br><br><br>
-            <div class = "rate" id = "cont" style = "text-align: center;">
+            <div class = "rate" id = "cont" style = "text-align: center">
                 <input type = "radio" id = "star1" name = "rate" value = "1"/>
                 <label for = "star1" title = "text">1 star</label>
                 
@@ -112,10 +110,22 @@
             <br><br><br> 
             <label for = "review" title = "review">Provide your feedback</label>
             <br><br>
-            <textarea rows = "5" cols = "50" name = "feedback" form = "reviewform" placeholder = "Enter your feedback...">Review</textarea>
+            <textarea rows = "5" cols = "50" name = "feedback" form = "reviewform" placeholder = "Enter your feedback..." required>Review</textarea>
             <br><br><br>
             <button type = "submit">Submit</button> 
         </form>
         <br><br><br>
+        
+        <h3>Review details by other users</h3>
+        {%if rating%}
+            {% for r in rating %}
+                <p>Username: {{r.username}}</p>
+                <p>Rating: {{r.rating}}</p>
+                <p>Review: {{r.review}}</p>
+            {% endfor %}
+            
+            {%else%}
+            <p>Nobody has reviewed so far!</p>
+        {%endif%}
     </body>
 </html>

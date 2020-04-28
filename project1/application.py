@@ -5,11 +5,12 @@ from create import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask import session
 from flask_session import Session
+from sqlalchemy import and_
 
-# app = Flask(__name__)
+#app = Flask(__name__)
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -26,72 +27,71 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-
 @app.route("/")
 def index():
-    return "Project 1: TODO"
+    return render_template('register.html', message="Register Your self with Email and Password")
 
-
-@app.route("/register")
+@app.route("/register", methods=["POST", "GET"])
 def register():
-    return render_template('register.html')
+    session.clear()
+    if request.method == "POST":
+        uname = request.form.get("Email")
+        pwd = request.form.get("password")
+        # html = "{{url_for('register')}}"
+        # button = "Register"
+        if uname == "" and pwd == "":
+            return render_template('register.html', message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        if uname == "":
+            return render_template('register.html', message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
+        if pwd == "":
+            return render_template('register.html', message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        if validate_user(uname):
+            return render_template('login.html', message="USER ALREADY EXISTS. LOGIN WITH THE CREDENTIALS")
+
+        if uname != "" and pwd != "" and not validate_user(uname):
+            try:
+                tstamp = datetime.datetime.now()
+                db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
+                           {"username": uname, "passwords": pwd, "creationstamp": tstamp})
+                db.commit()
+                return render_template('login.html', message="Please Log In using your Credentials")
+            except:
+                return render_template('register.html', message="Failed to Register. Try Again")
+    else:
+        return render_template('register.html', message="Register Your self with Email and Password")
 
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    if request.method == "GET":
-        return render_template('login.html')
+    session.clear()
+    if request.method == "POST":
+        uname = request.form.get("Email")
+        pwd = request.form.get("password")
+        # html = "{{url_for('login')}}"
+        # button = "Login"
+        if uname == "" and pwd == "":
+            return render_template('login.html', message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        if uname == "":
+            return render_template('login.html', message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
+        if pwd == "":
+            return render_template('login.html', message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        if not validate_user(uname):
+            return render_template('register.html', message="USER DOESN'T EXISTS. REGISTER")
+        elif not validate(uname, pwd):
+            return render_template('login.html', message="PASSWORD NOT MATCHED. TRY AGAIN")
+
+        session['Email'] = request.form['Email']
+        return render_template('profile.html')
+
     else:
-        return "Please Login using your Credentials"
+        return render_template('login.html', message="Please Login with your Credentials")
 
 
 @app.route("/logout")
 def logout():
-    if "Email" in session:
-        session.pop('Email', None)
-        return render_template('logout.html')
-    else:
-        return "user already logged out"
+    session.clear()
+    return render_template('login.html')
 
-
-@app.route("/home", methods=["POST"])
-def home():
-    if request.method == "POST":
-        uname = request.form.get("Email")
-        pwd = request.form.get("password")
-        if not validate(uname, pwd):
-            return "<h3>Incorrect UserId or Password</h3>"
-            # return render_template('register.html')
-        else:
-            session['Email'] = request.form['Email']
-            return render_template('success.html')
-
-
-@app.route("/display", methods=["POST", "GET"])
-def display():
-    if request.method == "POST":
-        uname = request.form.get("Email")
-        pwd = request.form.get("password")
-        if not validate(uname, pwd):
-            tstamp = datetime.datetime.now()
-            print(uname, pwd, tstamp)
-            try:
-                db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
-                           {"username": uname, "passwords": pwd, "creationstamp": tstamp})
-                db.commit()
-                return "Hello "+uname.split('@')[0]+"! You have successfully registered"
-            except:
-                return "Hello "+uname.split('@')[0] + "! Failed to Register"
-        else:
-            return "You are already registered."
-    else:
-        return "Please register yourself @ '/register'"
-
-
-@app.route("/admin")
-def admin():
-    user_data = Userdata.query.all()
-    return render_template('admin.html', userdata=user_data)
 
 @app.route("/search", methods=["POST"])
 def search():
@@ -109,11 +109,63 @@ def search():
     else:
         return "No such Details Found"
 
-@app.route("/bookpage/<string:arg>",methods = ["GET"])
-def bookpage():
-    book = db.query(Book).filter_by(isbn = "380795272")
-    return render_template("bookpage.html", bookdata = book)
+@app.route("/admin")
+def admin():
+    user_data = Userdata.query.all()
+    return render_template('admin.html', userdata=user_data)
 
+@app.route("/bookpage", methods = ["POST", "GET"])
+def bookpage():
+    if request.method == "GET":
+        if not 'Email' in session:
+            return render_template("register.html")
+        isbn = "1416949658"
+        book = Books.query.get(isbn)
+        if book is None:
+            return render_template("profile.html", msg = "Invalid ISBN number")
+        reviews = Reviews.query.filter_by(isbn = isbn).all()
+        return render_template("bookpage.html", bookDetails = book, userreviews = reviews)
+    else:
+        isbn = "1416949658"
+        book = Books.query.get(isbn)
+        try:
+            rating = request.form["rate"]
+        except:
+            rating = 0
+        review = request.form["feedback"]
+        username = session['Email']
+        
+        #newReview = Reviews(username = username, isbn = isbn, rating = rating, review = review)
+        dupReview = Reviews.query.filter(and_(Reviews.username == username, Reviews.isbn == isbn)).all()
+        if not dupReview:
+            db.execute("INSERT INTO reviewsdata(username, isbn, rating, review) VALUES (:username, :isbn, :rating, :review)",
+                           {"username": username, "isbn": isbn, "rating": rating, "review": review})
+            db.commit()
+            #db.session.add(newReview)
+            #db.session.commit()
+            reviews = Reviews.query.filter_by(isbn = isbn).all()
+            return render_template("bookpage.html", bookDetails = book, userreviews = reviews)
+        else:
+            reviews = Reviews.query.filter_by(isbn = isbn).all()
+            return render_template("bookpage.html", bookDetails = book, userreviews = reviews, err_msg = "Duplicate")
+
+def validate(uname, pwd):
+    checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id and passwords= :pwd",
+                         {"id": uname, "pwd": pwd}).fetchone()
+    if checker is None:
+        return False
+    else:
+        return True
+
+def validate_user(uname):
+    checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id",
+                         {"id": uname}).fetchone()
+    if checker is None:
+        return False
+    else:
+        return True
+
+"""
 @app.route("/review", methods = ["POST"])
 def addreview():
     username = request.form.get("Email").split('@')[0]
@@ -125,6 +177,7 @@ def addreview():
     db.add(review)
     db.commit()
     return redirect(url_for("/bookpage"))
+"""
 
 def validate(uname, pwd):
     checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id and passwords= :pwd",
