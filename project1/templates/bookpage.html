@@ -1,25 +1,52 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Book Page</title>
+        <title>BookPage</title>
         <style>
+            h2, h3 {
+                color: maroon;
+            }
+            
             h4 {
-                color:rgb(18, 247, 94);
+                color:darkslateblue;
             }
         </style>
     </head>
 
     <body style="text-align: center;">
+        <p>{{session['Email']}}</p>
         <button type="submit" class="logout_button" value="logout_now">Logout</button>
         <div class="container">
             <br>
             <div class="row">
-                <h1 style="font-size: 45px; font-weight: bolder; color:rgb(10, 219, 247)">Title: {{bookDetails.title}}</h1>
+                <h1 style="font-size: 45px; font-weight: bolder; color:rgb(40, 196, 243)">Title: {{bookDetails.title}}</h1>
                 <h4>ISBN: {{bookDetails.isbn}}</h4>
                 <h4>Author: {{bookDetails.author}}</h4>
                 <h4>Published: {{bookDetails.year}}</h4>
             </div>
-            <br>
+
+            <br><br><br><br><br>
+            <div id = "userReviews" style="color:rgb(207, 207, 207)">
+                <h3>Reviews by users</h3>
+                {%if userreviews%}
+                    <table align = "center">
+                        <tr style="color: rgb(255, 0, 170)">
+                            <th>Username</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                        </tr>
+                        {% for r in userreviews %}
+                            <tr>
+                                <td>{{r.username}}</td>
+                                <td>{{r.rating}}</td>
+                                <td>{{r.review}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    {%else%}
+                    <p style = "color: rgb(11, 139, 22);">No reviews</p>
+                {%endif%}
+            </div>
         </div>
     </body>
 </html>

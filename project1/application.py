@@ -101,3 +101,11 @@ def validate(uname, pwd):
         return False
     else:
         return True
+@app.route("/bookpage/<string:arg>", methods = ["GET"])
+def bookpage(arg):
+    if not 'Email' in session:
+        return render_template("register.html")
+    isbn = arg.strip().split("=")[1]
+    book = Books.query.get(isbn)
+    reviews = Reviews.query.filter_by(isbn = isbn).all()
+    return render_template("bookpage.html", bookDetails = book, userreviews = reviews)

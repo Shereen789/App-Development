@@ -1,28 +1,29 @@
-import os
-import csv
-from create import *
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 
-engine = create_engine(os.getenv("DATABASE_URL"))
+class Userdata(db.Model):
+    _tablename_ = "userdata"
+    username = db.Column(db.String, primary_key=True)
+    passwords = db.Column(db.String, nullable=False)
+    creationstamp = db.Column(db.DateTime, nullable=False)
 
-# create a 'scoped session' that ensures different users' interactions with the
-# database are kept separate
-db = scoped_session(sessionmaker(bind=engine))
+class Books(db.Model):
+    _tablename_ = "booksdata"
+    isbn = db.Column(db.String, primary_key=True)
+    title = db.Column(db.String)
+    author = db.Column(db.String)
+    year = db.Column(db.String)
 
-file = open("books.csv")
+class Reviews(db.Model):
+    _tablename_ = "reviewsdata"
+    username = db.Column(db.String, primary_key = True)
+    isbn = db.Column(db.String, primary_key = True)
+    rating = db.Column(db.Integer, nullable = False)
+    review = db.Column(db.String, nullable = False)
 
-reader = csv.reader(file)
-
-for isbn, title, author, year in reader:
-
-    db.execute("INSERT INTO booksdata (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)",
-               {"isbn": isbn,
-                "title": title,
-                "author": author,
-                "year": year})
-
-    print(f"Added book {title} to database.")
-
-    db.commit()
+    def _init_(self, username, isbn, rating, review):
+        self.username = username
+        self.isbn = isbn
+        self.rating = rating
+        self.review = review
