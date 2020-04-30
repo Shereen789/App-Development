@@ -70,7 +70,7 @@
                             style="font-family: 'Courier New' ;font-size:25px color: rgb(0, 0, 0);font-weight: bolder;">
                             Results for your Search..</caption>
                         <table id="searchtable" class="table"
-                            style="background-color:rgb(175, 247, 250);border: 3px solid black;">
+                            style="background-color:rgb(240, 212, 238);border: 3px solid black;text-align: center;">
 
 
                             <thead class="thead-dark">
@@ -82,15 +82,17 @@
                             </thead>
                             <tbody>
                                 {% for result in results %}
-                                <tr><a href={{result.isbn}}>
-                                        <td>{{result.title}}</td>
-                                        <td>{{result.isbn}}</td>
-                                    </a>
+                                <tr>
+                                    <td>{{result.title}}</td>
+                                    <td>{{result.isbn}}</td>
+
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+
                     </div>
+
                     <div class="col-md-4">
                         <blockquote class="blockquote">
                             <p class="mb-0"

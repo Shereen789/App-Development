@@ -48,9 +48,10 @@
                     <div class="col-md-2">
                     </div>
                     <div class="col-md-5">
-                        <form action="{{url_for('register')}}" class="border border-light p-5" method="POST">
+                        <form name="register_form" action="{{url_for('register')}}" class="border border-light p-5"
+                            method="POST">
                             <p id="Error Message"
-                                style="font-size: x-large;color: chartreuse; text-align:center;font-family: sans-serif;font-weight: bolder;">
+                                style="font-size: x-large;color:rgb(255, 252, 94); text-align:center;font-family: sans-serif;font-weight: bolder;">
                                 {{message}}</p>
                             <p class="h4 mb-4 text-center">Register</p>
 

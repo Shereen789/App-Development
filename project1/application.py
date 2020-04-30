@@ -9,6 +9,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Flask, render_template, request
 from flask import session
 from flask_session import Session
+from flask import Flask, jsonify, json
 # from flask_cors import CORS, cross_origin
 
 
@@ -31,9 +32,13 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
-    return render_template('register.html', message="Register Your self with Email and Password")
+    if request.method == "GET":
+        if session.get("Email") is None:
+            return render_template('login.html', message="")
+        else:
+            return render_template('profile.html')
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -42,8 +47,6 @@ def register():
     if request.method == "POST":
         uname = request.form.get("Email")
         pwd = request.form.get("password")
-        # html = "{{url_for('register')}}"
-        # button = "Register"
         if uname == "" and pwd == "":
             return render_template('register.html', message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
         if uname == "":
@@ -68,22 +71,20 @@ def register():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    session.clear()
+    # session.clear()
     if request.method == "POST":
         uname = request.form.get("Email")
         pwd = request.form.get("password")
-        # html = "{{url_for('login')}}"
-        # button = "Login"
-        if uname == "" and pwd == "":
-            return render_template('login.html', message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
-        if uname == "":
-            return render_template('login.html', message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
-        if pwd == "":
-            return render_template('login.html', message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
-        if not validate_user(uname):
-            return render_template('register.html', message="USER DOESN'T EXISTS. REGISTER")
-        elif not validate(uname, pwd):
-            return render_template('login.html', message="PASSWORD NOT MATCHED. TRY AGAIN")
+        # if uname == "" and pwd == "":
+        #     return render_template('login.html', message="USERNAME AND PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        # if uname == "":
+        #     return render_template('login.html', message="USERNAME CAN'T BE EMPTY. TRY AGAIN")
+        # if pwd == "":
+        #     return render_template('login.html', message="PASSWORD CAN'T BE EMPTY. TRY AGAIN")
+        # if not validate_user(uname):
+        #     return render_template('register.html', message="USER DOESN'T EXISTS. REGISTER")
+        # elif not validate(uname, pwd):
+        #     return render_template('login.html', message="PASSWORD NOT MATCHED. TRY AGAIN")
 
         session['Email'] = request.form['Email']
         return render_template('profile.html')
@@ -95,24 +96,74 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-    return render_template('login.html')
+    return render_template('login.html', message="Please Log In using your Credentials")
+
+# Basic search directing to new HTML PAGE
+# @app.route("/search", methods=["POST"])
+# def search():
+#     if request.method == "POST":
+#         search_by = request.form.get("search_with").strip()
+#         search_text = "%"+request.form.get("search_text").strip()+"%"
+#         print(search_by, search_text)
+#         if search_by == "1":
+#             results = db.query(Books).filter(
+#                 Books.author.like(search_text)).all()
+#         if search_by == "2":
+#             results = db.query(Books).filter(
+#                 Books.isbn.like(search_text)).all()
+#         if search_by == "3":
+#             results = db.query(Books).filter(
+#                 Books.title.like(search_text)).all()
+#         if results != None:
+#             return render_template('search.html', results=results)
+#         else:
+#             return "No such Details Found"
+# -----------------------------------------------------------------------------------
+# WIth AJAX IMPLEMENTATION
+
+# @app.route("/search", methods=["GET"])
+# def search():
+#     return render_template('profile.html')
 
 
-@app.route("/search", methods=["POST"])
+@app.route("/api/search/")
 def search():
-    search_by = request.form.get("search_with").strip()
-    search_text = "%"+request.form.get("search_text").strip()+"%"
+    # print(REQ)
+    search_by = request.form.get("search_with")
+    search_text = request.form.get("search_text")
+    # search_by = REQ.split("-")[0]
+    # search_text = REQ.split("-")[1]
+
+    search_list = []
+    results = []
     print(search_by, search_text)
     if search_by == "1":
-        results = db.query(Books).filter(Books.author.like(search_text)).all()
+        results = db.query(Books).filter(
+            Books.author.like(search_text)).all()
+        print(type(results))
     if search_by == "2":
-        results = db.query(Books).filter(Books.isbn.like(search_text)).all()
+        results = db.query(Books).filter(
+            Books.isbn.like(search_text)).all()
+        print(type(results))
     if search_by == "3":
-        results = db.query(Books).filter(Books.title.like(search_text)).all()
+        results = db.query(Books).filter(
+            Books.title.like(search_text)).all()
+    # print(results)
+        print(type(results))
     if results != None:
-        return render_template('search.html', results=results)
+        for result in results:
+            temp = {}
+            isbn = result.isbn
+            title = result.title
+            author = result.author
+            temp["isbn"] = isbn
+            temp["title"] = title
+            temp["author"] = author
+            search_list.append(temp)
+        jsonStr = json.dumps(search_list)
+        return jsonify(data=jsonStr)
     else:
-        return "No such Details Found"
+        return (jsonify({"Error": "No such Details Found"}), 400)
 
 
 @app.route("/admin")
