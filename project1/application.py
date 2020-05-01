@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask import session
 from flask_session import Session
 from flask import Flask, jsonify, json
@@ -34,6 +34,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/", methods=["GET"])
 def index():
+    print("REACHED LOGIN")
     if request.method == "GET":
         if session.get("Email") is None:
             return render_template('login.html', message="")
@@ -90,7 +91,9 @@ def login():
         return render_template('profile.html')
 
     else:
-        return render_template('login.html', message="Please Login with your Credentials")
+        return render_template('login.html')
+
+        # return render_template('profile.html')
 
 
 @app.route("/logout")
@@ -126,30 +129,16 @@ def logout():
 #     return render_template('profile.html')
 
 
-@app.route("/api/search/")
-def search():
-    # print(REQ)
-    search_by = request.form.get("search_with")
-    search_text = request.form.get("search_text")
-    # search_by = REQ.split("-")[0]
-    # search_text = REQ.split("-")[1]
-
+@app.route("/api/search/<data>")
+def search(data):
+    print("I'm inside the search function along with ", data)
+    # search_by = request.args.get("search_with")
+    # search_text = request.args.get("search_text")
+    search_by = data.split("&")[0]
+    search_text = data.split("&")[1]
+    print("data has been Splitted")
     search_list = []
-    results = []
-    print(search_by, search_text)
-    if search_by == "1":
-        results = db.query(Books).filter(
-            Books.author.like(search_text)).all()
-        print(type(results))
-    if search_by == "2":
-        results = db.query(Books).filter(
-            Books.isbn.like(search_text)).all()
-        print(type(results))
-    if search_by == "3":
-        results = db.query(Books).filter(
-            Books.title.like(search_text)).all()
-    # print(results)
-        print(type(results))
+    results = get_data(search_by, search_text)
     if results != None:
         for result in results:
             temp = {}
@@ -160,8 +149,11 @@ def search():
             temp["title"] = title
             temp["author"] = author
             search_list.append(temp)
+        print("====================================")
+        print(type(json.dumps(search_list)))
+        print(json.dumps(search_list))
         jsonStr = json.dumps(search_list)
-        return jsonify(data=jsonStr)
+        return jsonify(jsonStr)
     else:
         return (jsonify({"Error": "No such Details Found"}), 400)
 
@@ -188,3 +180,19 @@ def validate_user(uname):
         return False
     else:
         return True
+
+
+def get_data(i, text):
+    results = []
+    text = "%"+text+"%"
+    if i == "1":
+        results = db.query(Books).filter(
+            Books.author.like(text)).all()
+    if i == "2":
+        results = db.query(Books).filter(
+            Books.isbn.like(text)).all()
+
+    if i == "3":
+        results = db.query(Books).filter(
+            Books.title.like(text)).all()
+    return results
