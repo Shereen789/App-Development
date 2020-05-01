@@ -10,7 +10,7 @@ from flask import Flask, render_template, request, redirect
 from flask import session
 from flask_session import Session
 from flask import Flask, jsonify, json
-# from flask_cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 
 
 # cors = CORS(app, resources={r"*": {"origins": "*"}})
@@ -131,12 +131,12 @@ def logout():
 
 @app.route("/api/search/<data>")
 def search(data):
-    print("I'm inside the search function along with ", data)
+    # print("I'm inside the search function along with ", data)
     # search_by = request.args.get("search_with")
     # search_text = request.args.get("search_text")
     search_by = data.split("&")[0]
     search_text = data.split("&")[1]
-    print("data has been Splitted")
+    # print("data has been Splitted")
     search_list = []
     results = get_data(search_by, search_text)
     if results != None:
@@ -150,8 +150,8 @@ def search(data):
             temp["author"] = author
             search_list.append(temp)
         print("====================================")
-        print(type(json.dumps(search_list)))
-        print(json.dumps(search_list))
+        # print(type(json.dumps(search_list)))
+        # print(json.dumps(search_list))
         jsonStr = json.dumps(search_list)
         return jsonify(jsonStr)
     else:
