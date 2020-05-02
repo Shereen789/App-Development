@@ -71,7 +71,8 @@
                                         for (var i = 0; i < results.length; i++) {
                                             console.log(results[i])
                                             new_data += "<tr><td>" + results[i].title + "</td><td>" + results[i]
-                                                .author + "</td><td>" + results[i].isbn + "</td></tr>"
+                                                .author + "</td><td><a href=" + results[i].isbn + ">" + results[i]
+                                                .isbn + "</a></td></tr>"
                                         }
                                         new_data += "</tbody></table>"
                                     }

@@ -45,13 +45,13 @@ def register():
         uname = request.form.get("Email")
         pwd = request.form.get("password")
         if validate_user(uname):
-            return render_template('login.html', message="USER ALREADY EXISTS. LOGIN WITH THE CREDENTIALS")
+            return render_template('login.html', message="User already exists")
 
         if uname != "" and pwd != "" and not validate_user(uname):
             try:
                 tstamp = datetime.datetime.now()
-                db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)",
-                           {"username": uname, "passwords": pwd, "creationstamp": tstamp})
+                db.execute("INSERT INTO userdata(username, passwords, creationstamp) VALUES (:username, :passwords, :creationstamp)", {
+                           "username": uname, "passwords": pwd, "creationstamp": tstamp})
                 db.commit()
                 return render_template('login.html', message="Please Log In using your Credentials")
             except:
