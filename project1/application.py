@@ -131,31 +131,10 @@ def logout():
 
 @app.route("/api/search/<data>")
 def search(data):
-    # print("I'm inside the search function along with ", data)
-    # search_by = request.args.get("search_with")
-    # search_text = request.args.get("search_text")
-    search_by = data.split("&")[0]
-    search_text = data.split("&")[1]
-    # print("data has been Splitted")
-    search_list = []
-    results = get_data(search_by, search_text)
-    if results != None:
-        for result in results:
-            temp = {}
-            isbn = result.isbn
-            title = result.title
-            author = result.author
-            temp["isbn"] = isbn
-            temp["title"] = title
-            temp["author"] = author
-            search_list.append(temp)
-        print("====================================")
-        # print(type(json.dumps(search_list)))
-        # print(json.dumps(search_list))
-        jsonStr = json.dumps(search_list)
-        return jsonify(jsonStr)
-    else:
-        return (jsonify({"Error": "No such Details Found"}), 400)
+    search_by = data.split("-")[0]
+    search_text = data.split("-")[1]
+    result = get_data(search_by, search_text)
+    return jsonify(result)
 
 
 @app.route("/admin")
@@ -191,8 +170,24 @@ def get_data(i, text):
     if i == "2":
         results = db.query(Books).filter(
             Books.isbn.like(text)).all()
-
     if i == "3":
         results = db.query(Books).filter(
             Books.title.like(text)).all()
-    return results
+    print(results)
+    data_dic = []
+    for obj in results:
+        dic = {}
+        dic["title"] = obj.title
+        dic["isbn"] = obj.isbn
+        dic["author"] = obj.author
+        dic["year"] = obj.year
+        data_dic.append(dic)
+    return data_dic
+
+
+# if __name__ == "__main__":
+#     # k = get_data("2", "789")
+#     # j = jsonify(k)
+
+#     # re = json.load(j)
+#     # print(type(re))

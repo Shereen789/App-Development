@@ -60,28 +60,29 @@
                         <script>
                             function searchinitiate() {
                                 alert("FUNCTION INITIATED")
-
                                 var xhttp = new XMLHttpRequest();
-
                                 xhttp.onreadystatechange = function () {
-                                    // alert("entering onreadystatechange")
                                     if (xhttp.readyState === 4 && xhttp.status === 200) {
-                                        var results = JSON.parse(xhttp.responseText);
-                                        const type = typeof results
-                                        alert(type)
+                                        const check = xhttp.responseText;
+                                        var results = JSON.parse(check);
+                                        // alert(results)
+                                        var new_data =
+                                            "<div class=\"col-md-7\"><caption style = \"font-family: 'Courier New' ;font-size:25px color:rgb(0, 0, 0);font - weight: bolder;\">Results for your Search.. </caption><table id = \"searchtable\" class=\"table\"style = \"background-color:rgb(240,212,238);border: 3px solid black;text - align: center;\"><thead class = \"thead-dark\"> <tr style = \"border: 1px solid black;border-collapse:collapse;\"><th scope = \"col\"> Title</th><th scope = \"col\">Author</th><th scope = \"col\">ISBN</th></tr> </thead>< tbody>"
 
-                                        new_data = ""
+
                                         for (var i = 0; i < results.length; i++) {
-                                            new_data += results[i].title + "-"
+                                            console.log(results[i])
+
+                                            new_data += "<tr><td>" + results[i].title + "</td><td>" + results[i]
+                                                .author + "</td><td>" + results[i].isbn + "</td></tr>"
                                         }
+                                        new_data += "</tbody></table>"
                                     }
-                                    // alert(new_data)
-                                    new_data = "HELLO IRA. Happy to Help"
                                     document.getElementById("search_initiate").innerHTML = new_data;
                                 }
                                 type = document.getElementById("search_with").value
                                 text = document.getElementById("search_text").value
-                                data = type + "&" + text
+                                data = type + "-" + text
                                 console.log("DATA IS ", data)
                                 var url = "http://127.0.0.1:5000/api/search/" + data
                                 xhttp.open("GET", url, true);
