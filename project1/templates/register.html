@@ -1,74 +1,167 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <head>
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
     <title>
-        Register
+      Register
     </title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container-fluid">
-        <div class="row">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
             <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3 class="text-center text-warning">
-                            Buddy Books.
-                        </h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="nav">
-                            <li class="nav-item">
-                                <a class="btn btn-warning" role="button" href="#">Home</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
-                        <blockquote class="blockquote">
-                            <p class="mb-0"
-                                style="font-family: cursive;font-size:28px; text-align: center;margin-top: 200px; color: rgb(0, 0, 0);font-weight: bolder;">
-                                “Let us remember: One book, one pen, one child, and one teacher can change the world..”
-                            </p>
-                            <footer class="blockquote-footer"
-                                style="font-family: cursive;font-size:24px;color:darkred;text-align: right;font-weight: bolder;">
-                                Malala Yousafzai
-                            </footer>
-                        </blockquote>s
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-5">
-                        <form action="{{url_for('register')}}" class="border border-light p-5" method="POST">
-                            <p id="Error Message"
-                                style="font-size: x-large;color: chartreuse; text-align:center;font-family: sans-serif;font-weight: bolder;">
-                                {{message}}</p>
-                            <p class="h4 mb-4 text-center">Register</p>
-
-                            <input name="Email" type="email" id="defaultLoginFormEmail" class="form-control mb-4"
-                                placeholder="E-mail">
-                            <input name="password" type="password" id="defaultLoginFormPassword"
-                                class="form-control mb-4" placeholder="Password">
-                            <button class="btn btn-info btn-block my-4" type="submit">Sign Up</button>
-                            <div class="text-center">
-                                <p>Already a member?</p>
-                                <a class="btn btn-warning" href="{{url_for('login')}}" role="button">Sign In</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+              <h3 class="text-center text-warning">
+                Buddy Books.
+              </h3>
             </div>
-        </div>
-    </div>
-</body>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="btn btn-warning" role="button" href="#">Home</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <blockquote class="blockquote">
+                <p
+                  class="mb-0"
+                  style="
+                    font-family: cursive;
+                    font-size: 28px;
+                    text-align: center;
+                    margin-top: 200px;
+                    color: rgb(0, 0, 0);
+                    font-weight: bolder;
+                  "
+                >
+                  “Let us remember: One book, one pen, one child, and one
+                  teacher can change the world..”
+                </p>
+                <footer
+                  class="blockquote-footer"
+                  style="
+                    font-family: cursive;
+                    font-size: 24px;
+                    color: darkred;
+                    text-align: right;
+                    font-weight: bolder;
+                  "
+                >
+                  Malala Yousafzai
+                </footer>
+              </blockquote>
+              s
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-5">
+              <form
+                id="form"
+                name="register_form"
+                action="{{url_for('register')}}"
+                class="border border-light p-5"
+                method="POST"
+              >
+                <p
+                  id="Error Message"
+                  style="
+                    font-size: x-large;
+                    color: rgb(165, 162, 7);
+                    text-align: center;
+                    font-family: sans-serif;
+                    font-weight: bolder;
+                  "
+                >
+                  {{message}}
+                </p>
+                <p class="h4 mb-4 text-center">Register</p>
+                <input
+                  required
+                  name="Email"
+                  type="email"
+                  id="defaultLoginFormEmail"
+                  class="form-control mb-4"
+                  placeholder="E-mail"
+                />
 
+                <input
+                  required
+                  name="password"
+                  type="password"
+                  id="defaultLoginFormPassword"
+                  class="form-control mb-4"
+                  placeholder="Password"
+                />
+                <span id="em"></span>
+                <button
+                  class="btn btn-info btn-block my-4"
+                  onclick="return checker(form)"
+                  type="submit"
+                >
+                  Sign Up
+                </button>
+
+                <div class="text-center">
+                  <p>Already a member?</p>
+                  <a
+                    class="btn btn-warning"
+                    href="{{url_for('login')}}"
+                    role="button"
+                    >Sign In</a
+                  >
+                </div>
+              </form>
+              <script>
+                function checker(form) {
+                  console.log("987894654");
+                  var elemt = document.getElementById("form");
+                  var password = elemt.password.value;
+                  console.log(password);
+                  var error_message = "";
+                  if (password.length < 6) {
+                    error_message = "Minimum Password length should be 7";
+                    document.getElementById(
+                      "error_message"
+                    ).innerHTML = error_message;
+                    return false;
+                  }
+                  if (!/[a-z]/g.test(password)) {
+                    error_message += " 1 small letter";
+                  }
+                  if (!/[A-Z]/g.test(password)) {
+                    error_message += " 1 Capital letterr";
+                  }
+                  if (!/[1-9]/g.test(password)) {
+                    error_message += " 1 Number";
+                  }
+                  if (!/[!@#\$%\^\&*\)\(+=._-]/g.test(password)) {
+                    error_message += " 1 Spl letter";
+                  }
+                  if (error_message == "") {
+                    return true;
+                  }
+                  console.log(error_message);
+                  document.getElementById("em").innerHTML = error_message;
+                  return false;
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

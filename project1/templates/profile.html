@@ -40,23 +40,54 @@
                 </div>
                 <div class="row">
                     <div style="margin-top:40px" class="col-md-6">
-                        <form action="{{url_for('search')}}" class="form-inline" style="text-align: center;"
-                            method="POST">
-                            <label class="my-1 mr-2" style="font-family: 'Courier New', Courier, monospace;color:white;"
-                                for="inlineFormCustomSelectPref">Search with </label>
-                            <select type="text" class="custom-select my-1 mr-sm-2" name="search_with" id="search_with">
-                                <option selected>Select</option>
-                                <option value="1">Author</option>
-                                <option value="2">ISBN</option>
-                                <option value="3">Title</option>
-                            </select>
-                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                <input id="search_text" name="search_text" type="text"
-                                    placeholder="Enter details to Search " class="form-control input-md">
-                            </div>
-                            <button class="btn btn-primary my-1">Search</button>
 
-                        </form>
+                        <label class="my-1 mr-2" style="font-family: 'Courier New';color:white;"
+                            for="inlineFormCustomSelectPref">Search with </label>
+                        <select type="text" class="custom-select my-1 mr-sm-2" name="search_with" id="search_with">
+                            <option selected>Search With</option>
+                            <option value="1">Author</option>
+                            <option value="2">ISBN</option>
+                            <option value="3">Title</option>
+                        </select>
+                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                            <input id="search_text" name="search_text" type="text"
+                                placeholder="Enter details to Search " class="form-control input-md">
+                        </div>
+
+                        <button onclick="searchinitiate()" class="btn btn-primary my-1">Search</button>
+
+                        <div id="search_initiate">Data Goes here</div>
+                        <script>
+                            function searchinitiate() {
+                                alert("FUNCTION INITIATED")
+                                var xhttp = new XMLHttpRequest();
+                                xhttp.onreadystatechange = function () {
+                                    if (xhttp.readyState === 4 && xhttp.status === 200) {
+                                        const check = xhttp.responseText;
+                                        var results = JSON.parse(check);
+                                        // alert(results)
+                                        var new_data =
+                                            "<div class=\"col-md-7\"><caption style = \"font-family: 'Courier New' ;font-size:25px color:rgb(0, 0, 0);font - weight: bolder;\">Results for your Search.. </caption><table id = \"searchtable\" class=\"table\"style = \"background-color:rgb(240,212,238);border: 3px solid black;text - align: center;\"><thead class = \"thead-dark\"> <tr style = \"border: 1px solid black;border-collapse:collapse;\"><th scope = \"col\"> Title</th><th scope = \"col\">Author</th><th scope = \"col\">ISBN</th></tr> </thead><tbody>"
+                                        for (var i = 0; i < results.length; i++) {
+                                            console.log(results[i])
+                                            new_data += "<tr><td>" + results[i].title + "</td><td>" + results[i]
+                                                .author + "</td><td><a href=" + results[i].isbn + ">" + results[i]
+                                                .isbn + "</a></td></tr>"
+                                        }
+                                        new_data += "</tbody></table>"
+                                    }
+                                    document.getElementById("search_initiate").innerHTML = new_data;
+                                }
+                                type = document.getElementById("search_with").value
+                                text = document.getElementById("search_text").value
+                                data = type + "-" + text
+                                console.log("DATA IS ", data)
+                                var url = "http://127.0.0.1:5000/api/search/" + data
+                                xhttp.open("GET", url, true);
+                                xhttp.send();
+                                return false;
+                            }
+                        </script>
                     </div>
                     <div class="col-md-6">
                     </div>
