@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flask import session
 from flask_session import Session
 #app = Flask(__name__)
@@ -267,6 +267,37 @@ def bookpage(arg):
         else:
             reviews = Reviews.query.filter_by(isbn = isbn).all()
             return render_template("bookpage.html", bookDetails = book, userreviews = reviews, err_msg = "Duplicate")
+
+@app.route("/api/book/<string:arg>", methods = ["GET"])
+def api_bookpage(isbn):
+    isbn = arg.strip().split("=")[1]
+    book = Book.query.get(isbn)
+    if book is None:
+        result = {
+            "status": 404,
+            "error": "Book not found"
+        }
+        return jsonify(result)
+    else:
+        reviews = Review.query.filter_by(isbn = isbn).all()
+        reviewDetails = []
+        for r in reviews:
+            newReview = {
+                'username': r.username,
+                'isbn': r.isbn,
+                'rating':r.rating,
+                'review':r.review,
+            }
+            reviewDetails.append(newReview)
+        result = {
+            "status": 200,
+            "title": book.title,
+            "isbn": book.isbn,
+            "author": book.author,
+            "year": book.year,
+            "reviews": reviewDetails
+        }
+        return jsonify(result)
 
 def validate(uname, pwd):
     checker = db.execute("SELECT username, passwords FROM userdata WHERE username = :id and passwords= :pwd",
